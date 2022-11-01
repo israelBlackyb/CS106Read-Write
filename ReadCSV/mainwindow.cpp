@@ -32,33 +32,33 @@ void MainWindow::on_signIn_clicked() {
 
     for(int i= 0; i<fileContent.size(); i++) {
         if(userField->text() == fileContent.at(i).at(0)) {
-            if(passField->text() == fileContent.at(i).at(1)) { //column 1 (2nd column) contains the password
-               signedIn= true; //allwos thew sign in process
-                QMessageBox::information(this, "login", "You have successfully logged in");
+            if(passField->text() == fileContent.at(i).at(1)) { //column 1 (2nd column) contains the password, checks if it is true
+               signedIn= true; //if passwords match, log in is successful
+                QMessageBox::information(this, "login", "You have successfully logged in"); //informs user
             }
             else {
-                QMessageBox::warning(this, "Login", "Incoreeect Password");
+                QMessageBox::warning(this, "Login", "Incorrect Password"); //if the password doesn't match, gives warning
             }
         }
         else{
-            continue;
+            continue; //goes to next col to check
         }
     }
     if(!signedIn){
-        QMessageBox::warning(this, "Login", "User not found");
+        QMessageBox::warning(this, "Login", "User not found"); //if the login is not complete, issues warning
     }
 }
 
-void MainWindow::on_signUp_clicked(){
-    QLineEdit* userField = ui->userField;
-    QLineEdit* passField = ui->passField;
-    QVector<QString> content;
+void MainWindow::on_signUp_clicked(){ //when the button is clicekd
+    QLineEdit* userField = ui->userField; //assgins the text in userfield to the variable of userField
+    QLineEdit* passField = ui->passField; //same as above but ofr passfield
+    QVector<QString> content; //init var
 
     content.append(userField->text());
     content.append(passField->text());
     content.append("1");
 
-    if(fManager.CheckValidUser(userField->text(), "LoginInformation")){
+    if(fManager.CheckValidUser(userField->text(), "LoginInformation")){ //
         fManager.WriteFile("LoginInformation", content);
 
         QMessageBox box(this);
