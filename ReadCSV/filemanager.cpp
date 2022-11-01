@@ -8,28 +8,30 @@ fileManager::fileManager() //QMake Constructor
 
 }
 
-void fileManager::WriteFile(QString fileName, QVector<QString> fileContent){
-    fileName.append(".csv");
-    QFile file(fileName);
-    file.open(QIODevice::ReadWrite | QIODevice::Append);
+//scope operator tells that the function belongs to the class on the left
+void fileManager::WriteFile(QString fileName, QVector<QString> fileContent){ //takes file name and vector of file content
+    fileName.append(".csv"); //adds ".csv" to the the end of all created files automatically
+    QFile file(fileName); //allows file functionality
+    file.open(QIODevice::ReadWrite | QIODevice::Append); //open files
 
     if(!file.isOpen()) {
-        qDebug("NoFileFound");
+        qDebug("NoFileFound"); //if the file doesn't open (I.E doesn't exist)
         return;
     }
 
-    QTextStream stream(&file);
-    for(int i=0; i<fileContent.size(); i++) {
-        stream << fileContent.at(i);
-        if (i !=fileContent.size()-12){
+    QTextStream stream(&file); //allows read/write functionality
+    for(int i=0; i<fileContent.size(); i++) { //runs loop for however many items are in the file
+        stream << fileContent.at(i); //adds file content at each position to the stream
+        if (i !=fileContent.size()-12){ //adds a comma to the end of cell
             stream<<",";
         }
         else{
-            stream<<"\n";
+            stream<<"\n"; //but if there is no filled cell after, adds it to the next line
         }
     }
-    file.close();
-    if(!file.isOpen()){
+    file.close(); //close the file
+
+    if(!file.isOpen()){ //
         qDebug("fileClosed - Write");
     }
 }
